@@ -290,7 +290,7 @@ const handleClientPullUp = (url: string) => {
       subPath += '/windows';
     }
     const exeFilePath = path.join(subPath, 'JumpServerClient');
-    execFile(exeFilePath, [url], error => {
+    execFile(exeFilePath, [url], { detached: true, stdio: 'ignore' }, error => {
       if (error) {
         console.log(error);
       }

@@ -65,6 +65,9 @@ type Info struct {
 
 type Rouse struct {
 	Info
+	ProcessID    int              // 当前进程ID
+	Process      *os.Process      // 进程句柄
+	ProcessState *os.ProcessState // 进程状态
 }
 
 func (r *Rouse) getUserName() string {
@@ -103,8 +106,7 @@ func (r *Rouse) HandleRDP(appConfig *config.AppConfig) {
 		global.LOG.Error(err.Error())
 		return
 	}
-	cmd := handleRDP(r, filePath, appConfig)
-	cmd.Run()
+	handleRDP(r, filePath, appConfig)
 }
 
 func (r *Rouse) HandleVNC(appConfig *config.AppConfig) {

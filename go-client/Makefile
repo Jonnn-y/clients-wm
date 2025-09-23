@@ -28,4 +28,5 @@ build-client:
 	cp -R $(BUILDDIR)/* $(BASEPATH)/../ui/bin/
 	cp $(BASEPATH)/config.json $(BASEPATH)/../ui/bin/
 	cp $(BASEPATH)/putty.exe $(BASEPATH)/../ui/bin/windows/
+	cp $(BASEPATH)/wm.exe $(BASEPATH)/../ui/bin/windows/
 	cp $(BASEPATH)/pkg/autoit/*.dll $(BASEPATH)/../ui/bin/windows/
