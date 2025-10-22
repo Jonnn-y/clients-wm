@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { execFile } from 'child_process';
+import { spawn } from 'child_process';
 import { Conf, useConf } from 'electron-conf/main';
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import { app, BrowserWindow, ipcMain, session, shell } from 'electron';
@@ -290,11 +291,19 @@ const handleClientPullUp = (url: string) => {
       subPath += '/windows';
     }
     const exeFilePath = path.join(subPath, 'JumpServerClient');
-    execFile(exeFilePath, [url], { detached: true, stdio: 'ignore' }, error => {
-      if (error) {
-        console.log(error);
-      }
+    const child = spawn(exeFilePath, [url], {
+      detached: true,
+      stdio: 'ignore'
     });
+
+    child.on('error', err => {
+      log.error(`Failed to start subprocess: ${exeFilePath}`, err);
+    });
+
+    child.on('exit', (code, signal) => {
+      log.info(`Subprocess exited with code ${code} and signal ${signal}`);
+    });
+    child.unref();
   }
 };
 
